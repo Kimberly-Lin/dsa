@@ -15,7 +15,7 @@ class BinarySearchTree {
    * Returns the tree. Uses iteration. */
 
   insert(val) {
-    if (!this.root){
+    if (!this.root) {
       this.root = new Node(val);
       return this
     }
@@ -24,20 +24,20 @@ class BinarySearchTree {
     //if smaller than node, move left
     //if larger than node, move right
     //insert when no more nodes
-    while (current){
-      if (val<current.val){
-        if (!current.left){
+    while (current) {
+      if (val < current.val) {
+        if (!current.left) {
           current.left = new Node(val);
           return this;
         } else {
-          current=current.left;
+          current = current.left;
         }
       } else {
-        if (!current.right){
+        if (!current.right) {
           current.right = new Node(val);
           return this;
         } else {
-          current=current.right;
+          current = current.right;
         }
       }
     }
@@ -51,14 +51,14 @@ class BinarySearchTree {
       this.root = new Node(val);
       return this;
     }
-    if(val<node.val){
-      if (node.left === null){
+    if (val < node.val) {
+      if (node.left === null) {
         node.left = new Node(val);
         return this;
       }
       return this.insertRecursively(val, node.left);
     } else {
-      if(node.right === null){
+      if (node.right === null) {
         node.right = new Node(val);
         return this;
       }
@@ -69,12 +69,12 @@ class BinarySearchTree {
   /** find(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses iteration. */
 
-  find(val, current=this.root) {
-    while (current){
-      if (val===current.val){
+  find(val, current = this.root) {
+    while (current) {
+      if (val === current.val) {
         return current;
       }
-      current = (val<current.val) ? current.left : current.right; 
+      current = (val < current.val) ? current.left : current.right;
     }
     return undefined;
   }
@@ -82,13 +82,13 @@ class BinarySearchTree {
   /** findRecursively(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses recursion. */
 
-  findRecursively(val, current=this.root) {
+  findRecursively(val, current = this.root) {
     if (!current) return undefined;
-    if (current.val === val){
+    if (current.val === val) {
       return current;
     }
-    return (current.val<val 
-      ? this.findRecursively(val, current.right) 
+    return (current.val < val
+      ? this.findRecursively(val, current.right)
       : this.findRecursively(val, current.left)
     );
   }
@@ -96,29 +96,55 @@ class BinarySearchTree {
   /** dfsPreOrder(): Traverse the array using pre-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPreOrder() {
-
+  dfsPreOrder(node = this.root, visited = []) {
+    let stack = [node];
+    while (stack.length > 0) {
+      let current = stack.pop();
+      visited.push(current.val);
+      if (current.left) {
+        this.dfsPreOrder(current.left, visited);
+      }
+      if (current.right) {
+        this.dfsPreOrder(current.right, visited);
+      }
+    }
+    return visited;
   }
 
   /** dfsInOrder(): Traverse the array using in-order DFS.
    * Return an array of visited nodes. */
 
-  dfsInOrder() {
-
+  dfsInOrder(node = this.root, visited = []) {
+    if (node === null) return;
+    if (node.left) {
+      this.dfsInOrder(node.left, visited)
+    }
+    visited.push(node.val);
+    if (node.right) {
+      this.dfsInOrder(node.right, visited)
+    }
+    return visited;
   }
 
   /** dfsPostOrder(): Traverse the array using post-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPostOrder() {
-
+  dfsPostOrder(node = this.root, visited = []) {
+    if (node === null) return;
+    if (node.left) {
+      this.dfsPostOrder(node.left, visited)
+    }
+    if (node.right) {
+      this.dfsPostOrder(node.right, visited)
+    }
+    visited.push(node.val);
+    return visited;
   }
 
   /** bfs(): Traverse the array using BFS.
    * Return an array of visited nodes. */
 
   bfs() {
-
   }
 
   /** Further Study!
